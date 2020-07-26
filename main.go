@@ -13,17 +13,28 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
-var (
-	inputPath       = *flag.String("i", "hosts", "Input hosts file path")
-	dnsConfigPath   = *flag.String("do", "gfw_dns.conf", "Out dns config file path")
-	proxyConfigPath = *flag.String("po", "gfw_proxy.conf", "Out proxy config file path")
-	ipv6ConfigPath  = *flag.String("v6", "gfw_ipv6.conf", "Out ipv6 config file path")
-	dns             = *flag.String("dns", "127.0.0.1#65053", "DNS Server")
-	ipset           = *flag.String("ipset", "proxy", "IPSet")
-)
+var inputPath string
+var dnsConfigPath string
+var proxyConfigPath string
+var ipv6ConfigPath string
+var dns string
+var ipset string
+
+func init() {
+    flag.StringVar(&inputPath, "in", "hosts", "Input hosts file path")
+    flag.StringVar(&dnsConfigPath, "do", "gfw_dns.conf", "Out dns config file path")
+    flag.StringVar(&proxyConfigPath, "po", "gfw_proxy.conf", "Out proxy config file path")
+    flag.StringVar(&ipv6ConfigPath, "v6", "gfw_ipv6.conf", "Out ipv6 config file path")
+    flag.StringVar(&dns, "dns", "127.0.0.1#65053", "DNS Server")
+    flag.StringVar(&ipset, "ipset", "proxy", "IPSet")
+}
+
 
 func main() {
+    flag.Parse()
+
 	inFile, err := os.Open(inputPath)
+	fmt.Println(inputPath)
 	if err != nil {
 		log.Fatal(err)
 	}
